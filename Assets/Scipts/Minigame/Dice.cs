@@ -53,7 +53,7 @@ public class Dice : MonoBehaviour
 
     [Header("EndScreens")]
     public GameObject _WinningScreen;
-    public GameObject _LoosingScreen;
+    public GameObject _LostScreen;
 
     [Header("Bet Results")]
     public TMP_Text _Txt_Nanmi_Bet;
@@ -343,7 +343,7 @@ public class Dice : MonoBehaviour
 
 
 
-
+    //Calculate when which person gets how many tokens depending on their bets
     public void TokenCalculation()
     {
         //If DiceSum EVEN
@@ -434,6 +434,7 @@ public class Dice : MonoBehaviour
 
     }
 
+    //Write the Token scores into the UI
     public void PrintTokenScores()
     {
         _Txt_Player_RedToken.text = _Player_RedToken.ToString();
@@ -443,6 +444,7 @@ public class Dice : MonoBehaviour
 
     }
 
+    //Check if the Game has been Won or Lost
     public void FinishMinigame()
     {
         if (_Player_RedToken == 10 && _Nanami_BlueToken == 10)
@@ -453,12 +455,19 @@ public class Dice : MonoBehaviour
         else if (_Player_RedToken == 10 && _Player_BlueToken == 10)
         {
             Debug.Log("Game failed: Player has all Tokens");
-            _WinningScreen.SetActive(false);
+            _LostScreen.SetActive(true);
+        }
+        else if (_Player_RedToken < 0 || _Player_BlueToken < 0 || _Nanami_BlueToken < 0 || _Nanami_RedToken < 0)
+        {
+            Debug.Log("Game failed: No Tokens can be exchanged anymore");
+            _LostScreen.SetActive(true);
+
         }
         else if (_Nanami_RedToken == 10 && _Nanami_BlueToken == 10)
         {
             Debug.Log("Game failed: Nanami has all Tokens");
-            _WinningScreen.SetActive(false);
+            _LostScreen.SetActive(true);
         }
+        
     }
 }
